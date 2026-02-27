@@ -2,6 +2,8 @@
 {
     public partial class MainPage : ContentPage
     {
+        public const double MyFontSize = 23;
+
         string _filename = Path.Combine(FileSystem.AppDataDirectory, "notas.txt");
         public MainPage()
         {
