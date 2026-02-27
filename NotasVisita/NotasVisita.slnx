@@ -1,3 +1,6 @@
 <Solution>
-  <Project Path="NotasVisita/NotasVisita.csproj" />
+  <Folder Name="/Elementos de la solución/" />
+  <Project Path="NotasVisita/NotasVisita.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
 </Solution>

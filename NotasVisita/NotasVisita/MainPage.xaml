@@ -3,39 +3,38 @@
     x:Class="NotasVisita.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:mycode="clr-namespace:NotasVisita">
+    xmlns:notas="clr-namespace:NotasVisita"
+    >
 
     <ScrollView>
         <VerticalStackLayout Margin="30,60,30,30">
             <Label
                 FontAttributes="Bold"
-                FontSize="{mycode:GlobalFontSize}"
+                FontSize="{notas:GlobalFontSize}"
                 HorizontalOptions="Center"
-                Text="Notas" />
+                Text="Notas"
+                TextColor="{x:Static Member=notas:SharedResources.FontColor}" />
 
             <Editor
                 x:Name="editor"
-                FontSize="{mycode:GlobalFontSize}"
+                FontSize="{notas:GlobalFontSize}"
                 HeightRequest="100"
                 Placeholder="Introduzca su nota" />
             <Grid ColumnDefinitions="Auto, 30, Auto">
                 <Button
                     Grid.Column="0"
                     Clicked="Button_Clicked"
-                    FontSize="{mycode:GlobalFontSize}"
+                    FontSize="{notas:GlobalFontSize}"
                     Text="Guardar"
                     WidthRequest="100" />
                 <Button
                     x:Name="btnBorrar"
                     Grid.Column="2"
                     Clicked="btnBorrar_Clicked"
-                    FontSize="{mycode:GlobalFontSize}"
+                    FontSize="{notas:GlobalFontSize}"
                     Text="Borrar"
                     WidthRequest="100" />
             </Grid>
-
-
-
         </VerticalStackLayout>
     </ScrollView>
 
