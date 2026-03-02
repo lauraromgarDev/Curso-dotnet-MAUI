@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Grid_Ejercicio3.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <ScrollView>
+        <Grid
+            Padding="40"
+            ColumnDefinitions="*,*"
+            RowDefinitions="auto, auto, auto, *, auto, auto, auto">
+
+            <Label
+                Grid.Row="0"
+                Grid.Column="0"
+                Text="Bill" />
+            <Entry
+                x:Name="billInput"
+                Grid.Row="0"
+                Grid.Column="1"
+                Keyboard="Numeric"
+                Placeholder="Enter Amount" />
+
+            <Label
+                Grid.Row="1"
+                Grid.Column="0"
+                Text="Tip" />
+            <Label
+                x:Name="tipOutput"
+                Grid.Row="1"
+                Grid.Column="1"
+                Text="0.00" />
+
+            <Label
+                Grid.Row="2"
+                Grid.Column="0"
+                Text="Total" />
+            <Label
+                x:Name="totalOutput"
+                Grid.Row="2"
+                Grid.Column="1"
+                Text="0.00" />
+
+            <Label
+                Grid.Row="3"
+                Grid.Column="0"
+                HorizontalOptions="Start"
+                Text="Tip Percentage"
+                VerticalOptions="End" />
+
+            <Label
+                x:Name="tipPercent"
+                Grid.Row="3"
+                Grid.Column="1"
+                HorizontalOptions="End"
+                Text="15%"
+                VerticalOptions="End" />
+
+            <Slider
+                x:Name="tipPercentSlider"
+                Grid.Row="4"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Maximum="100"
+                Minimum="0"
+                Value="15" />
+
+            <Button
+                Grid.Row="5"
+                Grid.Column="0"
+                Margin="5"
+                Clicked="OnNormalTip"
+                Text="15%" />
+            <Button
+                Grid.Row="5"
+                Grid.Column="1"
+                Margin="5"
+                Clicked="OnGenerousTip"
+                Text="20%" />
+
+            <Button
+                x:Name="roundDown"
+                Grid.Row="6"
+                Grid.Column="0"
+                Margin="5"
+                Text="Round Down" />
+
+            <Button
+                x:Name="roundUp"
+                Grid.Row="6"
+                Grid.Column="1"
+                Margin="5"
+                Text="Round Up" />
+
+        </Grid>
+    </ScrollView>
+
+</ContentPage>
