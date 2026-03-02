@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Ejercicio1_Alignment.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Grid
+        Padding="20"
+        RowDefinitions="50,50,*"
+        RowSpacing="10">
+
+        <HorizontalStackLayout Grid.Row="0" Spacing="10">
+            <Label Text="Horizontal" VerticalOptions="Center" />
+            <Button Clicked="HorizontalStart" Text="Start" />
+            <Button Clicked="HorizontalCenter" Text="Center" />
+            <Button Clicked="HorizonalEnd" Text="End" />
+            <Button Clicked="HorizontalFill" Text="Fill" />
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout Grid.Row="1" Spacing="10">
+            <Label Text="Vertical" VerticalOptions="Center" />
+            <Button Clicked="VerticalStart" Text="Start" />
+            <Button Clicked="VerticalCenter" Text="Center" />
+            <Button Clicked="VerticalEnd" Text="End" />
+            <Button Clicked="VerticalFill" Text="Fill" />
+        </HorizontalStackLayout>
+
+        <Label
+            x:Name="target"
+            Grid.Row="2"
+            BackgroundColor="Purple"
+            Text="Holiiii" />
+
+    </Grid>
+
+</ContentPage>
