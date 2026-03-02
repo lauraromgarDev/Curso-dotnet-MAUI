@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Ejercicio2_TipCalculator.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="40" Spacing="10">
+
+            <HorizontalStackLayout Spacing="10">
+                <Label
+                    Text="Bill"
+                    VerticalOptions="Center"
+                    WidthRequest="100" />
+                <Entry
+                    x:Name="billInput"
+                    Keyboard="Numeric"
+                    Placeholder="Enter Amount" />
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Margin="0,20,0,0" Spacing="10">
+                <Label Text="Tip" WidthRequest="100" />
+                <Label x:Name="tipOutput" Text="0.00" />
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Spacing="10">
+                <Label Text="Total" WidthRequest="100" />
+                <Label x:Name="totalOutput" Text="0.00" />
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Spacing="10" VerticalOptions="End">
+                <Label Text="Tip Percentage" WidthRequest="100" />
+                <Label x:Name="tipPercent" Text="15%" />
+            </HorizontalStackLayout>
+
+            <Slider
+                x:Name="tipPercentSlider"
+                Maximum="100"
+                Minimum="0"
+                Value="15" />
+
+            <HorizontalStackLayout Margin="0,20,0,0" Spacing="10">
+                <Button
+                    Clicked="OnNormalTip"
+                    HorizontalOptions="Center"
+                    Text="15%"
+                    WidthRequest="150" />
+                <Button
+                    Clicked="OnGenerousTip"
+                    HorizontalOptions="Center"
+                    Text="20%"
+                    WidthRequest="150" />
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Margin="0,20,0,0" Spacing="10">
+                <Button
+                    x:Name="roundDown"
+                    HorizontalOptions="Center"
+                    Text="Round Down"
+                    WidthRequest="150" />
+                <Button
+                    x:Name="roundUp"
+                    HorizontalOptions="Center"
+                    Text="Round Up"
+                    WidthRequest="150" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+
+    </ScrollView>
+
+</ContentPage>
