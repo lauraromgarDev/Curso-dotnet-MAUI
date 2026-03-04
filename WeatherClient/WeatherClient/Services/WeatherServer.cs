@@ -25,6 +25,7 @@ namespace WeatherClient.Services
             };
 
             // Return the weather type
+            // Return the weather type
             return data;
         }
     }

@@ -2,7 +2,13 @@
 <ContentPage
     x:Class="WeatherClient.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:cvt="clr-namespace:WeatherClient.Converters">
+
+
+    <ContentPage.Resources>
+        <cvt:WeatherConditionToImageConverter x:Key="WeatherConditionToImageConverter" />
+    </ContentPage.Resources>
 
     <ScrollView>
         <Grid Margin="5" RowDefinitions="Auto,Auto,*,Auto">
@@ -48,7 +54,7 @@
                         Grid.Column="1"
                         HeightRequest="25"
                         HorizontalOptions="Start"
-                        Source="question.png"
+                        Source="{Binding Condition, Converter={StaticResource WeatherConditionToImageConverter}}"
                         WidthRequest="25" />
                     <Label
                         Grid.Row="1"
