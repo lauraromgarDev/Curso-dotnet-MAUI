@@ -7,21 +7,19 @@
     xmlns:vm="clr-namespace:MovieCatalog.ViewModels"
     Title="MoviesListPage"
     BindingContext="{x:Static local:App.MainViewModel}">
-    <ListView
+    <CollectionView
         Margin="10"
-        ItemTapped="ListView_ItemTapped"
-        ItemsSource="{Binding Movies}">
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <TextCell x:DataType="vm:MovieViewModel" Text="{Binding Title}">
-                    <TextCell.ContextActions>
-                        <MenuItem
-                            Clicked="MenuItem_Clicked"
-                            IsDestructive="True"
-                            Text="Delete" />
-                    </TextCell.ContextActions>
-                </TextCell>
+        ItemsSource="{Binding Movies}"
+        SelectedItem="{Binding SelectedMovie, Mode=OneWayToSource}"
+        SelectionChanged="CollectionView_SelectionChanged"
+        SelectionMode="Single">
+
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="vm:MovieViewModel">
+                <Grid Padding="10">
+                    <Label FontSize="18" Text="{Binding Title}" />
+                </Grid>
             </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
 </ContentPage>

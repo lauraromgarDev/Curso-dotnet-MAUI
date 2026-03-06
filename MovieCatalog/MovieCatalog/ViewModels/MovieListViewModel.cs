@@ -7,9 +7,22 @@ using System.Text;
 
 namespace MovieCatalog.ViewModels
 {
+
     // 'ObservableObject' permite que la interfaz de usuario se entere de los cambios.
     public class MovieListViewModel : ObservableObject
     {
+        private MovieViewModel _selectedMovie;
+
+        // Propiedad pública que el CollectionView "mira" para saber cuál está marcada.
+        // Al usar 'SetProperty', si cambia la selección, la página de detalles se entera al instante.
+        public MovieViewModel SelectedMovie
+        {
+            get => _selectedMovie;
+            set => SetProperty(ref _selectedMovie, value);
+        }
+
+
+
         // 'ObservableCollection' es una lista especial para MAUI: 
         // Si añades o quitas un elemento aquí, la pantalla se actualiza SOLA.
         // Usa 'MovieViewModel' porque es el diseño de CADA película individual.

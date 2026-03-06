@@ -8,18 +8,6 @@ public partial class MoviesListPage : ContentPage
         InitializeComponent();
     }
 
-    // EVENTO: SE EJECUTA AL TOCAR UNA PELÍCULA EN LA LISTA
-    private async void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
-    {
-        // 1. EXTRAER EL DATO: 'e.Item' es un objeto genérico. 
-        // Lo convertimos (cast) a MovieViewModel para poder usarlo.
-        ViewModels.MovieViewModel movie = (ViewModels.MovieViewModel)e.Item;
-
-        // 2. NAVEGAR: Abrimos la página de detalles y le pasamos 
-        // la película que acabamos de extraer.
-        await Navigation.PushAsync(new Views.MovieDetailPage(movie));
-    }
-
     // EVENTO: SE EJECUTA AL PULSAR EL BOTÓN "DELETE" (MENÚ CONTEXTUAL)
     private void MenuItem_Clicked(object sender, EventArgs e)
     {
@@ -34,5 +22,16 @@ public partial class MoviesListPage : ContentPage
         // para que elimine esta película de la colección.
         // El '?' asegura que no falle si por alguna razón el ViewModel fuera nulo.
         App.MainViewModel?.DeleteMovie(movie);
+    }
+
+    private async void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.CurrentSelection.Count == 0)
+            return;
+
+        await Navigation.PushAsync(new Views.MovieDetailPage());
+
+        // Deselect
+        ((CollectionView)sender).SelectedItem = null;
     }
 }
