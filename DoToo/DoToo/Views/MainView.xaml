@@ -3,9 +3,11 @@
     x:Class="DoToo.Views.MainView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="Do Too!">
+    xmlns:viewModels="clr-namespace:DoToo.ViewModels"
+    Title="Do Too!"
+    x:DataType="viewModels:MainViewModel">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" />
+        <ToolbarItem Command="{Binding AddItemCommand}" Text="Add" />
     </ContentPage.ToolbarItems>
     <Grid>
         <Grid.RowDefinitions>
