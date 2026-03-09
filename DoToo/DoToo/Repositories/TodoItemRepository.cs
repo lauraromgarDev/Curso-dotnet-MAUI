@@ -1,0 +1,70 @@
+﻿using DoToo.Models;
+using SQLite;
+
+namespace DoToo.Repositories
+{
+
+    public class TodoItemRepository : ITodoItemRepository
+    {
+        private SQLiteAsyncConnection connection;
+        private async Task CreateConnectionAsync()
+        {
+            if (connection != null)
+            {
+                return;
+            }
+
+            var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+            var databasePath = Path.Combine(documentsPath, "todoitems.db");
+
+            connection = new SQLiteAsyncConnection(databasePath);
+            await connection.CreateTableAsync<TodoItem>();
+
+            if (await connection.Table<TodoItem>().CountAsync() == 0)
+            {
+                await connection.InsertAsync(new TodoItem()
+                {
+                    Title = "Welcome to DoToo",
+                    Due = DateTime.Now
+                });
+            }
+        }
+
+        public event EventHandler<TodoItem> OnItemAdded;
+        public event EventHandler<TodoItem> OnItemUpdated;
+
+        public async Task AddItemAsync(TodoItem item)
+        {
+            await CreateConnectionAsync();
+            await connection.InsertAsync(item);
+            OnItemAdded?.Invoke(this, item);
+        }
+
+        public Task AddOrUpdateAsync(TodoItem item)
+        {
+            if (item.Id == 0)
+            {
+                return AddItemAsync(item);
+            }
+            else
+            {
+                return UpdateItemAsync(item);
+            }
+        }
+
+        public async Task<List<TodoItem>> GetItemsAsync()
+        {
+            await CreateConnectionAsync();
+            return await connection.Table<TodoItem>().ToListAsync();
+        }
+
+        public async Task UpdateItemAsync(TodoItem item)
+        {
+
+            await CreateConnectionAsync();
+            await connection.InsertAsync(item);
+            OnItemAdded?.Invoke(this, item);
+        }
+    }
+}
