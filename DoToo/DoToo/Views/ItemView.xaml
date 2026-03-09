@@ -3,17 +3,19 @@
     x:Class="DoToo.Views.ItemView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="New todo item">
+    xmlns:viewModels="clr-namespace:DoToo.ViewModels"
+    Title="New todo item"
+    x:DataType="viewModels:ItemViewModel">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Save" />
+        <ToolbarItem Command="{Binding SaveCommand}" Text="Save" />
     </ContentPage.ToolbarItems>
     <StackLayout Padding="14">
         <Label Text="Title" />
-        <Entry />
+        <Entry Text="{Binding Item.Title}" />
         <Label Text="Due" />
-        <DatePicker />
+        <DatePicker Date="{Binding Item.Due}" />
         <StackLayout Orientation="Horizontal">
-            <Switch />
+            <Switch IsToggled="{Binding Item.Completed}" />
             <Label Text="Completed" />
         </StackLayout>
     </StackLayout>
