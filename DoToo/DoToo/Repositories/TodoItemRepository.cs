@@ -63,7 +63,7 @@ namespace DoToo.Repositories
         {
 
             await CreateConnectionAsync();
-            await connection.InsertAsync(item);
+            await connection.UpdateAsync(item);
             OnItemAdded?.Invoke(this, item);
         }
     }

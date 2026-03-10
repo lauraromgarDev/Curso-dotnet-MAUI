@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using DoToo.Models;
 using DoToo.Repositories;
-using Microsoft.VisualBasic;
 
 namespace DoToo.ViewModels
 {
