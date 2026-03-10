@@ -64,7 +64,7 @@ namespace DoToo.Repositories
 
             await CreateConnectionAsync();
             await connection.UpdateAsync(item);
-            OnItemAdded?.Invoke(this, item);
+            OnItemUpdated?.Invoke(this, item);
         }
     }
 }
