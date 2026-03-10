@@ -36,7 +36,7 @@ namespace DoToo.ViewModels
 
             if (!ShowAll)
             {
-                items = items.Where(x => !x.Completed == false).ToList();
+                items = items.Where(x => x.Completed == false).ToList();
             }
 
 
