@@ -34,11 +34,18 @@ namespace DoToo.ViewModels
         {
             var items = await repository.GetItemsAsync();
 
+            if (!ShowAll)
+            {
+                items = items.Where(x => !x.Completed == false).ToList();
+            }
+
+
             var itemViewModels = items.Select(i =>
                 CreateTodoItemViewModel(i));
             Items = new ObservableCollection<TodoItemViewModel>(itemViewModels);
 
         }
+
         private TodoItemViewModel CreateTodoItemViewModel(TodoItem item)
         {
             var itemViewModel = new TodoItemViewModel(item);
@@ -47,7 +54,17 @@ namespace DoToo.ViewModels
         }
         private void ItemStatusChanged(object sender, EventArgs e)
         {
+            if (sender is TodoItemViewModel item)
+            {
+                if (!ShowAll && item.Item.Completed)
+                {
+                    Items.Remove(item);
+                }
+                Task.Run(async () => await repository.UpdateItemAsync(item.Item));
+            }
         }
+        [ObservableProperty]
+        bool showAll;
 
         [RelayCommand]
         public async Task AddItemAsync() =>
@@ -59,6 +76,7 @@ namespace DoToo.ViewModels
 
         [ObservableProperty]
         TodoItemViewModel selectedItem;
+
 
         partial void OnSelectedItemChanging(TodoItemViewModel value)
         {
@@ -82,6 +100,13 @@ namespace DoToo.ViewModels
             itemView.Title = "Edit to do item";
 
             await Navigation.PushAsync(itemView);
+        }
+
+        [RelayCommand]
+        private async Task ToggleFilterAsync()
+        {
+            ShowAll = !ShowAll;
+            await LoadDataAsync();
         }
     }
 }

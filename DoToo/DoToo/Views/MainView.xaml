@@ -12,6 +12,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:StatusColorConverter x:Key="statusColorConverter" />
+            <converters:FilterTextConverter x:Key="filterTextConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -28,7 +29,8 @@
         <Button
             Grid.Row="0"
             Margin="10"
-            Text="Toggle filter" />
+            Command="{Binding ToggleFilterCommand}"
+            Text="{Binding ShowAll, Converter={StaticResource filterTextConverter}, StringFormat='Filter: {0}'}" />
 
         <ListView
             x:Name="ItemsListView"
@@ -40,6 +42,9 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:TodoItemViewModel">
                     <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Command="{Binding ToggleCompletedCommand}" Text="{Binding StatusText}" />
+                        </ViewCell.ContextActions>
                         <Grid Padding="15,10">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />

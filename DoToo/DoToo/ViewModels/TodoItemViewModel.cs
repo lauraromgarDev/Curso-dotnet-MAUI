@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using DoToo.Models;
 
 
@@ -19,5 +20,12 @@ namespace DoToo.ViewModels
         // Este método se llama para cambiar el estado del item.
         public string StatusText => Item.Completed ? "Reactivate" :
         "Completed";
+
+        [RelayCommand]
+        void ToggleCompleted()
+        {
+            Item.Completed = !Item.Completed;
+            ItemStatusChanged?.Invoke(this, new EventArgs());
+        }
     }
 }
