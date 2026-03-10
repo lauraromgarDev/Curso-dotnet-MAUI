@@ -3,9 +3,17 @@
     x:Class="DoToo.Views.MainView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:DoToo.Converters"
     xmlns:viewModels="clr-namespace:DoToo.ViewModels"
     Title="Do Too!"
     x:DataType="viewModels:MainViewModel">
+
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:StatusColorConverter x:Key="statusColorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Command="{Binding AddItemCommand}" Text="Add" />
@@ -23,10 +31,11 @@
             Text="Toggle filter" />
 
         <ListView
+            x:Name="ItemsListView"
             Grid.Row="1"
             ItemsSource="{Binding Items}"
             RowHeight="70"
-            SelectionMode="None">
+            SelectedItem="{Binding SelectedItem}">
 
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:TodoItemViewModel">
@@ -67,11 +76,9 @@
                             <Label
                                 Grid.Row="1"
                                 Grid.Column="1"
+                                BackgroundColor="{Binding Item.Completed, Converter={StaticResource statusColorConverter}}"
                                 FontSize="Caption"
-                                HorizontalTextAlignment="End"
-                                IsVisible="{Binding Item.Completed}"
-                                Text="✓ Completed"
-                                TextColor="Green" />
+                                HorizontalTextAlignment="End" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
