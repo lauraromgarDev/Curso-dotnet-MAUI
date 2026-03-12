@@ -26,6 +26,7 @@ namespace News
         {
             // Services
             mauiAppBuilder.Services.AddSingleton<Services.INewsService>((serviceProvider) => new Services.NewsService());
+            mauiAppBuilder.Services.AddSingleton<ViewModels.INavigate>((serviceProvider) => new Navigator());
 
             // ViewModels
             mauiAppBuilder.Services.AddTransient<ViewModels.HeadlinesViewModel>();
