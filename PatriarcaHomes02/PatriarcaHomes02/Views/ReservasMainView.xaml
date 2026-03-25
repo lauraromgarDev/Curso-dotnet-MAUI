@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PatriarcaHomes02.Views.ReservasMainView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewModels="clr-namespace:PatriarcaHomes02.ViewModels"
+    Title="Reservas Patriarca Home"
+    x:DataType="viewModels:ReservasMainViewModel">
+
+    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,*">
+
+        <Button
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="10"
+            BackgroundColor="Brown"
+            Command="{Binding LoadDataCommand}"
+            Text="Refrescar Datos"
+            TextColor="White" />
+
+        <Button
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="10"
+            BackgroundColor="White"
+            BorderColor="Brown"
+            BorderWidth="1"
+            Command="{Binding AddReservaCommand}"
+            Text="Reservar"
+            TextColor="Brown" />
+
+        <CollectionView
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            ItemsSource="{Binding ReservasItems}">
+
+            <CollectionView.EmptyView>
+                <Label
+                    Margin="20"
+                    HorizontalOptions="Center"
+                    Text="No se encontraron reservas en PostgreSQL."
+                    VerticalOptions="Center" />
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="viewModels:ReservaItemViewModel">
+                    <Border
+                        Margin="10,5"
+                        Padding="15"
+                        Stroke="#E0E0E0"
+                        StrokeThickness="1">
+
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+
+                        <VerticalStackLayout Spacing="5">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="{Binding Reserva.Fecha, StringFormat='{0:dd/MM/yyyy}'}"
+                                TextColor="#333333" />
+
+                            <HorizontalStackLayout Spacing="10">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="14"
+                                    Text="Usuario ID:" />
+                                <Label FontSize="14" Text="{Binding Reserva.User_id}" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="10">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="14"
+                                    Text="Nombre:" />
+                                <Label FontSize="14" Text="{Binding Reserva.Name}" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="10">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="14"
+                                    Text="Vivienda:" />
+                                <Label FontSize="14" Text="{Binding Reserva.Vivienda}" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>
