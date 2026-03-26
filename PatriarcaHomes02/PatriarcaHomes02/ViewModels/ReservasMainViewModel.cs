@@ -1,70 +1,51 @@
-﻿using PatriarcaHomes02.Models;
+﻿using CommunityToolkit.Mvvm.Input;
+using PatriarcaHomes02.Models;
 using PatriarcaHomes02.Repositories;
-using System;
-using System.Collections.Generic;
+using PatriarcaHomes02.Views;
+
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Text;
 
 namespace PatriarcaHomes02.ViewModels
 {
     public partial class ReservasMainViewModel : ViewModel
     {
         private readonly IReservaRepository _repository;
+        private readonly IServiceProvider _services;
+
 
         //esto es lo que va a escuchar la vista
         public ObservableCollection<ReservaItemViewModel> ReservasItems { get; set; }
 
-        public ReservasMainViewModel(IReservaRepository repository)
+
+        public ReservasMainViewModel(IReservaRepository repository, IServiceProvider services)
         {
             this._repository = repository;
+            this._services = services;
 
             ReservasItems = new ObservableCollection<ReservaItemViewModel>();
+
+            //metodos para recargar la pg con las noticias cuando añadamos una reserva
+            _repository.OnReservaAdded -= AlAnadirReserva;
+            _repository.OnReservaAdded += AlAnadirReserva;
 
             //al arrancar las pedimos
             _ = CargarReservas();
         }
 
 
-        private async Task CargarReservas_()
-        {
-            try
-            {
-                // 1. Pedimos los datos
-                var datosLaravel = await _repository.GetReservasAsync();
-
-                // 2. Actualizamos la lista en el hilo principal
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    ReservasItems.Clear();
-
-                    if (datosLaravel != null && datosLaravel.Count > 0)
-                    {
-                        foreach (var reserva in datosLaravel)
-                        {
-                            // Cada reserva se envuelve en su ItemViewModel
-                            var item = new ReservaItemViewModel(reserva);
-                            ReservasItems.Add(item);
-                        }
-                    }
-                });
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Error al cargar: {ex.Message}");
-            }
-        }
+        [RelayCommand]
         private async Task CargarReservas()
         {
             try
             {
-                // 1. Pedimos los datos puros al Repositorio (vía ApiService)
+                // Pedimos los datos  al Repositorio (vía ApiService)
                 var datosDeLaravel = await _repository.GetReservasAsync();
 
-                // 2. Limpiamos la lista actual
+                // Limpiamos la lista actual
                 ReservasItems.Clear();
 
-                // 3. Transformamos cada Reserva en un "envoltorio" ItemViewModel
+                // Transformamos cada Reserva en un "envoltorio" ItemViewModel
                 foreach (var reserva in datosDeLaravel)
                 {
                     var item = new ReservaItemViewModel(reserva);
@@ -75,6 +56,21 @@ namespace PatriarcaHomes02.ViewModels
             {
                 Debug.WriteLine($"Error al cargar: {ex.Message}");
             }
+        }
+
+        [RelayCommand]
+        public async Task AddReserva()
+        {
+            await Navigation.PushAsync(_services.GetRequiredService<ReservaView>());
+        }
+
+        //metodo para recargar la pag
+        private void AlAnadirReserva(object sender, Reserva nuevaReserva)
+        {
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                await CargarReservas();
+            });
         }
     }
 }

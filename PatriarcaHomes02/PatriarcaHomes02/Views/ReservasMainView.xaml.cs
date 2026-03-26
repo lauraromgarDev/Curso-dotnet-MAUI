@@ -8,6 +8,7 @@ public partial class ReservasMainView : ContentPage
     {
         InitializeComponent();
         BindingContext = viewModel;
+        viewModel.Navigation = Navigation;
     }
 
 }

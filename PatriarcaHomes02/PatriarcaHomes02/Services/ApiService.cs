@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Buffers.Text;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -86,7 +87,10 @@ namespace PatriarcaHomes02.Services
         {
             try
             {
-                var json = JsonSerializer.Serialize(data);
+                // Configuración para que C# hable "el idioma de Laravel/JS" (CamelCase)
+                var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+
+                var json = JsonSerializer.Serialize(data, options); // <--- Importante pasar las options aquí también
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var response = await conexionHttp.PostAsync(endpoint, content);
@@ -94,16 +98,18 @@ namespace PatriarcaHomes02.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<T>(responseContent, new JsonSerializerOptions
-                    {
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                    });
+                    return JsonSerializer.Deserialize<T>(responseContent, options);
                 }
+
+                // TIP: Si falla, mira qué error da Laravel antes de devolver null
+                var errorBody = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine($"Error API {response.StatusCode}: {errorBody}");
+
                 return default;
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error en POST {endpoint}: {ex.Message}");
+                Debug.WriteLine($"Error en POST {endpoint}: {ex.Message}");
                 return default;
             }
         }

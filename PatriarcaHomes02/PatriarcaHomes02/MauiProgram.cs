@@ -41,6 +41,7 @@ public static class MauiProgram
         // Registramos los ViewModels que hemos creado
         mauiAppBuilder.Services.AddTransient<ReservasMainViewModel>();
         mauiAppBuilder.Services.AddTransient<ReservaItemViewModel>();
+        mauiAppBuilder.Services.AddTransient<ReservaFormViewModel>();
 
         return mauiAppBuilder;
     }
@@ -49,6 +50,7 @@ public static class MauiProgram
     {
         // Registramos la Vista principal
         mauiAppBuilder.Services.AddTransient<ReservasMainView>();
+        mauiAppBuilder.Services.AddTransient<ReservaView>();
 
         return mauiAppBuilder;
     }

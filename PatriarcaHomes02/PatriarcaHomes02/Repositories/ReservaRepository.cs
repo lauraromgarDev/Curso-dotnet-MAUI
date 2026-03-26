@@ -1,5 +1,6 @@
 ﻿using PatriarcaHomes02.Models;
 using PatriarcaHomes02.Services;
+using System.Diagnostics;
 
 namespace PatriarcaHomes02.Repositories
 {
@@ -7,7 +8,7 @@ namespace PatriarcaHomes02.Repositories
     {
         private readonly ApiService _apiService;
 
-        // El constructor recibe el ApiService (Inyección de Dependencias)
+        // El constructor recibe el ApiService 
         public ReservaRepository(ApiService apiService)
         {
             _apiService = apiService;
@@ -15,6 +16,7 @@ namespace PatriarcaHomes02.Repositories
 
 
         public event EventHandler<Reserva> OnReservaAdded;
+        public event EventHandler<Reserva> OnReservaUpdated;
 
 
 
@@ -22,11 +24,11 @@ namespace PatriarcaHomes02.Repositories
         {
             try
             {
-                // Llamamos al método genérico de tu ApiService.
-                // "reservas" es el endpoint de tu API en Laravel (api/reservas)
+                // Llamamos al método genérico de ApiService.
+                // "reservas" es el endpoint de la API en Laravel 
                 var resultado = await _apiService.GetAsync<List<Reserva>>("reservas");
 
-                // Si viene nulo, devolvemos una lista vacía para no romper la app
+                // Si viene nulo, devolvemos una lista vaciap
                 return resultado ?? new List<Reserva>();
             }
             catch (Exception ex)
@@ -37,14 +39,37 @@ namespace PatriarcaHomes02.Repositories
         }
 
 
-        public Task AddOrUpdateAsync(Reserva reserva)
+        public async Task AddOrUpdateAsync(Reserva reserva)
         {
-            throw new NotImplementedException();
+            if (reserva.Id == 0)
+            {
+                await AddReservaAsync(reserva);
+            }
+            else
+            {
+                await UpdateReservaAsync(reserva);
+            }
         }
 
-        public Task AddReservaAsync(Reserva reserva)
+        public async Task AddReservaAsync(Reserva nuevaReserva)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var resultado = await _apiService.PostAsync<Reserva>("reservas", nuevaReserva);
+
+                if (resultado != null)
+                {
+                    OnReservaAdded?.Invoke(this, resultado);
+                }
+                else
+                {
+                    Debug.WriteLine("Error: La API no devolvió nada o hubo un error 4xx/5xx.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Excepción al guardar: {ex.Message}");
+            }
         }
 
         public Task deleteReservaAsync(Reserva reserva)
