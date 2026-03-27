@@ -33,5 +33,20 @@ namespace PatriarcaHomes02.ViewModels
                 Debug.WriteLine($"Error al guardar la reserva: {ex.Message}");
             }
         }
+
+        [RelayCommand]
+
+        public async Task DeleteReservaAsync()
+        {
+            try
+            {
+                await _repository.deleteReservaAsync(Item);
+                await Navigation.PopAsync(); //volvemos atras
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error al borrar la reserva: {ex.Message}");
+            }
+        }
     }
 }

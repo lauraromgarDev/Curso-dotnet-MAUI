@@ -6,8 +6,9 @@ namespace PatriarcaHomes02.Repositories
     public interface IReservaRepository
     {
         //metodo que avisa a la vista cuando uan reserva cambie
-        event EventHandler<Reserva> OnReservaAdded;
+        public event EventHandler<Reserva> OnReservaAdded;
         public event EventHandler<Reserva> OnReservaUpdated;
+        public event EventHandler<Reserva> OnReservaDeleted;
 
 
         //definimos los metodos base

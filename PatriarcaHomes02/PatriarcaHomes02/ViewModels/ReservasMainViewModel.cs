@@ -29,6 +29,7 @@ namespace PatriarcaHomes02.ViewModels
             _repository.OnReservaAdded -= AlAnadirReserva;
             _repository.OnReservaAdded += AlAnadirReserva;
             _repository.OnReservaUpdated += AlAnadirReserva;
+            _repository.OnReservaDeleted += AlAnadirReserva;
 
             //al arrancar las pedimos
             _ = CargarReservas();

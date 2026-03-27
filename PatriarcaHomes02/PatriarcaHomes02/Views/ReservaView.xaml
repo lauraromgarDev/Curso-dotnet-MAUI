@@ -8,35 +8,62 @@
     x:DataType="viewModels:ReservaFormViewModel">
     <Grid
         Padding="20"
-        ColumnDefinitions="*"
-        RowDefinitions="Auto, Auto, Auto,  Auto, Auto">
+        ColumnDefinitions="*,*"
+        RowDefinitions="Auto,Auto,Auto,Auto,Auto">
         <Label
             Grid.Row="0"
+            Grid.ColumnSpan="2"
             FontAttributes="Bold"
             Text="Fecha de la Reserva" />
 
         <DatePicker
             Grid.Row="1"
+            Grid.ColumnSpan="2"
             Margin="0,0,0,20"
             Date="{Binding Item.Fecha}" />
 
         <Label
             Grid.Row="2"
+            Grid.Column="0"
             FontAttributes="Bold"
             Text="Usuario ID" />
 
         <Entry
             Grid.Row="3"
+            Grid.ColumnSpan="2"
+            Margin="0,0,0,20"
             Keyboard="Numeric"
             Placeholder="Introduce el ID..."
             Text="{Binding Item.User_id}" />
 
         <Button
             Grid.Row="4"
-            Margin="20"
+            Grid.Column="0"
+            Margin="5"
             Background="Brown"
             Command="{Binding SaveReservaCommand}"
-            Text="Guardar" />
+            Text="Guardar"
+            TextColor="White" />
 
+        <Button
+            Grid.Row="4"
+            Grid.Column="1"
+            Margin="5"
+            Background="White"
+            BorderColor="Brown"
+            BorderWidth="1"
+            Command="{Binding DeleteReservaCommand}"
+            Text="Eliminar"
+            TextColor="Brown">
+
+            <Button.Triggers>
+                <DataTrigger
+                    Binding="{Binding Item.Id}"
+                    TargetType="Button"
+                    Value="0">
+                    <Setter Property="IsVisible" Value="False" />
+                </DataTrigger>
+            </Button.Triggers>
+        </Button>
     </Grid>
 </ContentPage>

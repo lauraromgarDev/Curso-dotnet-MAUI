@@ -17,6 +17,7 @@ namespace PatriarcaHomes02.Repositories
 
         public event EventHandler<Reserva> OnReservaAdded;
         public event EventHandler<Reserva> OnReservaUpdated;
+        public event EventHandler<Reserva> OnReservaDeleted;
 
 
 
@@ -86,7 +87,7 @@ namespace PatriarcaHomes02.Repositories
                 {
                     // Lanzamos el evento para que la lista se entere
                     OnReservaUpdated?.Invoke(this, resultado);
-                    Debug.WriteLine("Reserva actualizada correctamente en Laravel");
+                    Debug.WriteLine("Reserva actualizada correctamente");
                 }
             }
             catch (Exception ex)
@@ -96,9 +97,25 @@ namespace PatriarcaHomes02.Repositories
         }
 
 
-        public Task deleteReservaAsync(Reserva reserva)
+        public async Task deleteReservaAsync(Reserva reserva)
         {
-            throw new NotImplementedException();
+            try
+            {
+                string endpoint = $"reservas/delete/{reserva.Id}";
+
+                var resultado = await _apiService.DeleteAsync(endpoint);
+
+                if (resultado != null)
+                {
+                    // Lanzamos el evento para que la lista se entere
+                    OnReservaDeleted?.Invoke(this, reserva);
+                    Debug.WriteLine("Reserva eliminada correctamente");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error al actualizar: {ex.Message}");
+            }
         }
 
     }

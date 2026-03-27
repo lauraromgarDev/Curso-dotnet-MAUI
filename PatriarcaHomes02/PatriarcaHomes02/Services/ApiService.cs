@@ -130,7 +130,6 @@ namespace PatriarcaHomes02.Services
                     return JsonSerializer.Deserialize<T>(responseContent, options);
                 }
 
-                // TIP: Si falla, mira qué error da Laravel antes de devolver null
                 var errorBody = await response.Content.ReadAsStringAsync();
                 Debug.WriteLine($"Error API {response.StatusCode}: {errorBody}");
 
@@ -143,5 +142,28 @@ namespace PatriarcaHomes02.Services
             }
         }
 
+
+        public async Task<bool> DeleteAsync(string endpoint)
+        {
+            try
+            {
+
+                var response = await conexionHttp.DeleteAsync(endpoint);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+
+                var errorBody = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine($"Error API DELETE {response.StatusCode}: {errorBody}");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error en DELETE {endpoint}: {ex.Message}");
+                return false;
+            }
+        }
     }
 }
