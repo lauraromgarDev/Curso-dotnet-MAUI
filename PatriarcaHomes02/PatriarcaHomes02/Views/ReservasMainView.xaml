@@ -8,7 +8,6 @@
     x:DataType="viewModels:ReservasMainViewModel">
 
     <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,*">
-
         <Button
             Grid.Row="0"
             Grid.Column="0"
@@ -17,7 +16,6 @@
             Command="{Binding CargarReservasCommand}"
             Text="Refrescar Datos"
             TextColor="White" />
-
         <Button
             Grid.Row="0"
             Grid.Column="1"
@@ -28,11 +26,13 @@
             Command="{Binding AddReservaCommand}"
             Text="Reservar"
             TextColor="Brown" />
-
         <CollectionView
             Grid.Row="1"
             Grid.ColumnSpan="2"
-            ItemsSource="{Binding ReservasItems}">
+            ItemsSource="{Binding ReservasItems}"
+            SelectionChangedCommand="{Binding SeleccionarReservaCommand}"
+            SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}"
+            SelectionMode="Single">
 
             <CollectionView.EmptyView>
                 <Label
@@ -43,6 +43,7 @@
             </CollectionView.EmptyView>
 
             <CollectionView.ItemTemplate>
+
                 <DataTemplate x:DataType="viewModels:ReservaItemViewModel">
                     <Border
                         Margin="10,5"

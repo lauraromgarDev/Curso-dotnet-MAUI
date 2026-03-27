@@ -7,6 +7,8 @@ namespace PatriarcaHomes02.Repositories
     {
         //metodo que avisa a la vista cuando uan reserva cambie
         event EventHandler<Reserva> OnReservaAdded;
+        public event EventHandler<Reserva> OnReservaUpdated;
+
 
         //definimos los metodos base
         Task<List<Reserva>> GetReservasAsync();

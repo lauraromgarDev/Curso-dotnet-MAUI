@@ -16,10 +16,7 @@ namespace PatriarcaHomes02.Services
         private string urlConexion;
         public ApiService()
         {
-
-
             urlConexion = Configuration.ApiConstants.ApiUrl;
-
 
             // Obtenemos el "permiso" para certificados inseguros
             HttpClientHandler insecureHandler = GetInsecureHandler();
@@ -113,5 +110,38 @@ namespace PatriarcaHomes02.Services
                 return default;
             }
         }
+
+        // 3. Metodo para enviar datos (PUT)
+        public async Task<T?> PutAsync<T>(string endpoint, object data)
+        {
+            try
+            {
+                // Configuración para que C# hable "el idioma de Laravel/JS" (CamelCase)
+                var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+
+                var json = JsonSerializer.Serialize(data, options); // <--- Importante pasar las options aquí también
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await conexionHttp.PutAsync(endpoint, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    return JsonSerializer.Deserialize<T>(responseContent, options);
+                }
+
+                // TIP: Si falla, mira qué error da Laravel antes de devolver null
+                var errorBody = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine($"Error API {response.StatusCode}: {errorBody}");
+
+                return default;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error en PUT {endpoint}: {ex.Message}");
+                return default;
+            }
+        }
+
     }
 }

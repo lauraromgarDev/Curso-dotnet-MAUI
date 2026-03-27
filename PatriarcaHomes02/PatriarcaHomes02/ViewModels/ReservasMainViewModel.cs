@@ -28,10 +28,21 @@ namespace PatriarcaHomes02.ViewModels
             //metodos para recargar la pg con las noticias cuando añadamos una reserva
             _repository.OnReservaAdded -= AlAnadirReserva;
             _repository.OnReservaAdded += AlAnadirReserva;
+            _repository.OnReservaUpdated += AlAnadirReserva;
 
             //al arrancar las pedimos
             _ = CargarReservas();
         }
+
+        //metodo para recargar la pag cuando creamos
+        private void AlAnadirReserva(object sender, Reserva nuevaReserva)
+        {
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                await CargarReservas();
+            });
+        }
+
 
 
         [RelayCommand]
@@ -64,13 +75,21 @@ namespace PatriarcaHomes02.ViewModels
             await Navigation.PushAsync(_services.GetRequiredService<ReservaView>());
         }
 
-        //metodo para recargar la pag
-        private void AlAnadirReserva(object sender, Reserva nuevaReserva)
+        [RelayCommand]
+        public async Task SeleccionarReserva(ReservaItemViewModel itemCargado)
         {
-            MainThread.BeginInvokeOnMainThread(async () =>
-            {
-                await CargarReservas();
-            });
+            if (itemCargado == null) return;
+            //Debug.Write(itemCargado);
+
+            // Obtener la página del formulario
+            var view = _services.GetRequiredService<ReservaView>();
+            var vm = view.BindingContext as ReservaFormViewModel;
+
+            // Esto rellena el formulario con la reserva que ya existe
+            vm.Item = itemCargado.Reserva;
+
+            await Navigation.PushAsync(view);
+
         }
     }
 }

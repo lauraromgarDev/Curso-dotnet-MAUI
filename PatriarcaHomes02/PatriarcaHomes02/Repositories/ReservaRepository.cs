@@ -55,7 +55,7 @@ namespace PatriarcaHomes02.Repositories
         {
             try
             {
-                var resultado = await _apiService.PostAsync<Reserva>("reservas", nuevaReserva);
+                var resultado = await _apiService.PostAsync<Reserva>("reservas/store", nuevaReserva);
 
                 if (resultado != null)
                 {
@@ -72,16 +72,34 @@ namespace PatriarcaHomes02.Repositories
             }
         }
 
+
+
+        public async Task UpdateReservaAsync(Reserva reserva)
+        {
+            try
+            {
+                string endpoint = $"reservas/update/{reserva.Id}";
+
+                var resultado = await _apiService.PutAsync<Reserva>(endpoint, reserva);
+
+                if (resultado != null)
+                {
+                    // Lanzamos el evento para que la lista se entere
+                    OnReservaUpdated?.Invoke(this, resultado);
+                    Debug.WriteLine("Reserva actualizada correctamente en Laravel");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error al actualizar: {ex.Message}");
+            }
+        }
+
+
         public Task deleteReservaAsync(Reserva reserva)
         {
             throw new NotImplementedException();
         }
 
-
-
-        public Task UpdateReservaAsync(Reserva reserva)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
