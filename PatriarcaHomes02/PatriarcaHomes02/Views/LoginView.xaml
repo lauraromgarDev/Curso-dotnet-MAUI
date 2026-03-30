@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PatriarcaHomes02.Views.LoginView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewModels="clr-namespace:PatriarcaHomes02.ViewModels"
+    Title="Login"
+    x:DataType="viewModels:LoginViewModel">
+
+    <Grid
+        Padding="20"
+        ColumnDefinitions="*"
+        RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+
+        <Label
+            Grid.Row="0"
+            FontAttributes="Bold"
+            Text="Email" />
+
+        <Entry
+            Grid.Row="1"
+            Keyboard="Email"
+            Placeholder="email@email.com"
+            Text="{Binding Email}" />
+
+        <Label
+            Grid.Row="2"
+            FontAttributes="Bold"
+            Text="Contraseña" />
+
+        <Entry
+            Grid.Row="3"
+            IsPassword="True"
+            Placeholder="********"
+            Text="{Binding Password}" />
+
+        <Button
+            Grid.Row="4"
+            Margin="5"
+            Background="Brown"
+            Command="{Binding AccesoAppCommand}"
+            Text="Acceder"
+            TextColor="White" />
+    </Grid>
+</ContentPage>

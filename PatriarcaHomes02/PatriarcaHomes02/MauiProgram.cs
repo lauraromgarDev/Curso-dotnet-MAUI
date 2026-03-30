@@ -29,9 +29,9 @@ public static class MauiProgram
         // 1. Registro del ApiService (Clase normal)
         mauiAppBuilder.Services.AddSingleton<ApiService>();
 
-        // 2. Registro de Interfaz -> Implementación (Lo que explicaba tu texto)
-        // Decimos: "Cuando alguien pida IReservaRepository, dale un ReservaRepository"
+        // 2. Registro de Interfaz -> Implementación
         mauiAppBuilder.Services.AddSingleton<IReservaRepository, ReservaRepository>();
+        mauiAppBuilder.Services.AddSingleton<ILoginRepository, LoginRepository>();
 
         return mauiAppBuilder;
     }
@@ -43,6 +43,8 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddTransient<ReservaItemViewModel>();
         mauiAppBuilder.Services.AddTransient<ReservaFormViewModel>();
 
+        mauiAppBuilder.Services.AddTransient<LoginViewModel>();
+
         return mauiAppBuilder;
     }
 
@@ -51,6 +53,10 @@ public static class MauiProgram
         // Registramos la Vista principal
         mauiAppBuilder.Services.AddTransient<ReservasMainView>();
         mauiAppBuilder.Services.AddTransient<ReservaView>();
+
+        //login 
+        mauiAppBuilder.Services.AddTransient<LoginView>();
+        mauiAppBuilder.Services.AddTransient<AppShell>();
 
         return mauiAppBuilder;
     }
